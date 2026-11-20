@@ -1,0 +1,9 @@
+{
+  "id": "261119-oliver",
+  "name": "Oliver",
+  "description": "A sweet tabby who has already found his new home.",
+  "isActive": false,
+  "images": ["portrait.svg"],
+  "activeImage": "portrait.svg",
+  "internalNotes": "Inactive example: this cat and its image must not be publicly accessible."
+}

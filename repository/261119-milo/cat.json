@@ -1,0 +1,9 @@
+{
+  "id": "261119-milo",
+  "name": "Milo",
+  "description": "A curious ginger boy who loves chasing ribbons and finding the sunniest spot for a nap.",
+  "isActive": true,
+  "images": ["portrait.svg", "playtime.svg"],
+  "activeImage": "portrait.svg",
+  "internalNotes": "Dummy record. Replace with real details before publishing."
+}
