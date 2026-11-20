@@ -1,0 +1,8 @@
+{
+  "id": "261120-myau",
+  "name": "Myau",
+  "description": "A fluffy ginger kitten with bright blue eyes.",
+  "isActive": true,
+  "images": ["photo-1.jpg", "photo-2.jpg"],
+  "activeImage": "photo-1.jpg"
+}
