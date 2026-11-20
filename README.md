@@ -66,6 +66,8 @@ and the repository must not be a public static directory.
 
 ## Cat repository
 
+See [Muse AI instructions](museai.md) for AI-powered record creation, updates, deletion, photo management, and publication rules.
+
 Each cat has its own folder under `repository`, for example:
 
 ```text
