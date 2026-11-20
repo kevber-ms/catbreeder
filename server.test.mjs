@@ -39,9 +39,9 @@ test("home links to a listing with only active cats and their selected local ima
   const response = await get("/cats");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.equal((html.match(/<article /g) ?? []).length, 3);
-  for (const name of ["Milo", "Luna", "Poppy"]) assert.ok(html.includes(`<h2>${name}</h2>`));
-  for (const id of ["261119-milo", "261119-luna", "261119-poppy"]) {
+  assert.equal((html.match(/<article /g) ?? []).length, 4);
+  for (const name of ["Milo", "Luna", "Poppy", "Myau"]) assert.ok(html.includes(`<h2>${name}</h2>`));
+  for (const id of ["261119-milo", "261119-luna", "261119-poppy", "261120-myau"]) {
     assert.ok(html.includes(`href="/cats/${id}"`));
   }
   assert.ok(!html.includes("Oliver"));
@@ -49,17 +49,22 @@ test("home links to a listing with only active cats and their selected local ima
   assert.ok(!html.includes("Dummy record"));
 
   const imageUrls = [...html.matchAll(/<img src="([^"]+)"/g)].map((match) => match[1]);
-  assert.equal(imageUrls.length, 3);
+  assert.equal(imageUrls.length, 4);
   assert.deepEqual(imageUrls, [
     "/cats/261119-luna/images/portrait.svg",
     "/cats/261119-milo/images/portrait.svg",
     "/cats/261119-poppy/images/portrait.svg",
+    "/cats/261120-myau/images/photo-1.jpg",
   ]);
   for (const url of imageUrls) {
     const image = await get(url);
     assert.equal(image.status, 200);
-    assert.equal(image.headers.get("content-type"), "image/svg+xml");
-    assert.match(await image.text(), /<svg/);
+    if (url.endsWith(".svg")) {
+      assert.equal(image.headers.get("content-type"), "image/svg+xml");
+      assert.match(await image.text(), /<svg/);
+    } else {
+      assert.equal(image.headers.get("content-type"), "image/jpeg");
+    }
   }
 });
 
