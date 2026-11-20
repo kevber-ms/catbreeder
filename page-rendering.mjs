@@ -2,11 +2,11 @@ const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
 })[character]);
 
-export function renderCats(cats) {
+export function renderCats(cats, basePath = "") {
   const cards = cats.map((cat) => `
         <article class="cat-card">
-          <a href="/cats/${cat.id}" aria-label="View ${escapeHtml(cat.name)}">
-            <img src="/cats/${cat.id}/images/${encodeURIComponent(cat.activeImage)}"
+          <a href="${basePath}/cats/${cat.id}" aria-label="View ${escapeHtml(cat.name)}">
+            <img src="${basePath}/cats/${cat.id}/images/${encodeURIComponent(cat.activeImage)}"
               alt="${escapeHtml(cat.name)}" width="480" height="360">
             <div class="cat-details">
               <p class="eyebrow">Available</p>
@@ -16,6 +16,7 @@ export function renderCats(cats) {
           </a>
         </article>`).join("");
   return renderPage({
+    basePath,
     title: "Available cats",
     description: "Meet the cats currently available at Sveta's Cats.",
     backHref: "/",
@@ -31,13 +32,13 @@ export function renderCats(cats) {
   });
 }
 
-export function renderCat(cat) {
+export function renderCat(cat, basePath = "") {
   const images = [cat.activeImage, ...cat.images.filter((image) => image !== cat.activeImage)];
   const gallery = images.map((image, index) => `
         <figure>
-          <a href="/cats/${cat.id}/images/${encodeURIComponent(image)}"
+          <a href="${basePath}/cats/${cat.id}/images/${encodeURIComponent(image)}"
             aria-label="View full-size photo ${index + 1} of ${escapeHtml(cat.name)}">
-            <img src="/cats/${cat.id}/images/${encodeURIComponent(image)}"
+            <img src="${basePath}/cats/${cat.id}/images/${encodeURIComponent(image)}"
               alt="${escapeHtml(cat.name)} - photo ${index + 1}" width="480" height="360">
           </a>
           <figcaption>Photo ${index + 1}${index === 0 ? " &middot; Main photo" : ""}</figcaption>
@@ -50,6 +51,7 @@ export function renderCat(cat) {
           <dd><pre>${escapeHtml(typeof value === "object" ? JSON.stringify(value, null, 2) : String(value))}</pre></dd>
         </div>`).join("");
   return renderPage({
+    basePath,
     title: cat.name,
     description: cat.description,
     backHref: "/cats",
@@ -72,7 +74,7 @@ export function renderCat(cat) {
   });
 }
 
-function renderPage({ title, description, backHref, backLabel, content }) {
+function renderPage({ basePath, title, description, backHref, backLabel, content }) {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -81,12 +83,12 @@ function renderPage({ title, description, backHref, backLabel, content }) {
     <meta name="description" content="${escapeHtml(description)}">
     <meta name="theme-color" content="#faf7f0">
     <title>${escapeHtml(title)} | Sveta's Cats</title>
-    <link rel="stylesheet" href="/site.css">
+    <link rel="stylesheet" href="${basePath}/site.css">
   </head>
   <body>
     <header class="container">
-      <a class="brand" href="/">Sveta's Cats<span>.</span></a>
-      <nav aria-label="Main navigation"><a href="${backHref}">${backLabel}</a></nav>
+      <a class="brand" href="${basePath}/">Sveta's Cats<span>.</span></a>
+      <nav aria-label="Main navigation"><a href="${basePath}${backHref}">${backLabel}</a></nav>
     </header>
     ${content}
     <footer class="container">

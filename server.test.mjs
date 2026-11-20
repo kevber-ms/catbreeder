@@ -34,7 +34,7 @@ test("home links to a listing with only active cats and their selected local ima
   const { get } = await fixture(t);
   const home = await get("/");
   assert.equal(home.status, 200);
-  assert.match(await home.text(), /href="\/cats">Meet available cats/);
+  assert.match(await home.text(), /href="cats\/">Meet available cats/);
 
   const response = await get("/cats");
   assert.equal(response.status, 200);

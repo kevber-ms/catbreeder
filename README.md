@@ -1,8 +1,50 @@
 # Sveta's Cats
 
-A dependency-free sample cat breeder site. Requires Node.js 22 or newer.
+A dependency-free sample cat breeder site with a local Node.js server and a
+static build for GitHub Pages. Requires Node.js 22 or newer for development
+and building; the published static site does not need a server.
 
-## Run locally
+## Deploy to GitHub Pages
+
+1. Commit and push these changes to `main`.
+2. In the GitHub repository, open **Settings > Pages** and set **Source** to
+   **GitHub Actions**. Do not select deployment from the repository root.
+3. Open **Actions > Deploy to GitHub Pages** and run the workflow, or push a
+   new commit to `main`.
+4. After the deployment succeeds, open <https://kevber-ms.github.io/catbreeder/>.
+
+The workflow tests the site, generates `dist`, and deploys **only that folder**.
+It obtains the URL base path from GitHub Pages, so `/catbreeder/` project URLs
+and root-domain deployments both work. Only active cats and their listed images
+are included. Raw `cat.json` files, inactive cats, unlisted images, source code,
+and server files are not included in the Pages artifact.
+
+The static site is a snapshot: adding, editing, hiding, or removing cats requires
+a rebuild and deployment. Commit repository changes and push to `main` to trigger
+this automatically. There is no admin interface or Google Drive integration yet.
+Files in a public GitHub source repository remain public independently of Pages.
+
+## Build static content locally
+
+```sh
+npm run build
+```
+
+This generates a clean `dist` directory for hosting at `/`. For a project site,
+set `BASE_PATH` before building. For example, in PowerShell:
+
+```powershell
+$env:BASE_PATH = "/catbreeder"
+npm run build
+Remove-Item Env:BASE_PATH
+```
+
+Serve only `dist` using a static web server; when building for `/catbreeder`,
+mount it at that URL prefix. Listing and detail pages are written as directory
+`index.html` files, so direct links and reloads work without SPA rewrite rules.
+Do not upload the repository root or use it as the public static directory.
+
+## Run the dynamic server locally
 
 ```sh
 npm start
@@ -19,6 +61,8 @@ and the repository must not be a public static directory.
 - `cat-repository.mjs`: dynamic repository discovery, metadata validation,
   active-cat filtering, and protected image-file access.
 - `page-rendering.mjs`: listing and detail-page HTML, shared layout, and escaping.
+- `build.mjs`: static page generation and copying only published images to `dist`.
+- `.github/workflows/pages.yml`: tests, static build, and GitHub Pages deployment.
 
 ## Cat repository
 
@@ -62,7 +106,7 @@ detail-page and image URLs to identify the cat.
 Keep real private records out of public source control; the included records
 and illustrations are dummy examples.
 
-Listings, details, and image requests read the repository on each request;
+With the local Node.js server, listings, details, and image requests read the repository on each request;
 there is no hardcoded cat catalog or startup cache. Add or remove a cat folder
 at runtime and the next request reflects the change without restarting.
 Prepare a complete new folder outside the repository, then move it in to avoid
