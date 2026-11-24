@@ -51,15 +51,32 @@ for (const basePath of ["", "/catbreeder/"]) {
     const files = await outputFiles(outputDirectory);
     assert.deepEqual(files, [
       ".nojekyll",
+      "assets/hero-cat.jpg",
       `cats/${cat.id}/images/playing.svg`,
       `cats/${cat.id}/images/portrait.svg`,
       `cats/${cat.id}/index.html`,
       "cats/index.html",
+      "fonts/dm-sans.ttf",
+      "fonts/dm-sans-OFL.txt",
+      "fonts/playfair-display.ttf",
+      "fonts/playfair-display-italic.ttf",
+      "fonts/playfair-display-OFL.txt",
       "index.html",
       "site.css",
     ].sort());
 
     const prefix = basePath.replace(/\/$/, "");
+    const stylesheet = await readFile(join(outputDirectory, "site.css"), "utf8");
+    const stylesheetUrl = new URL(`${prefix}/site.css`, "https://example.test");
+    const fontUrls = [...stylesheet.matchAll(/url\("([^"]+)"\)/g)];
+    assert.equal(fontUrls.length, 3);
+    for (const [, value] of fontUrls) {
+      const url = new URL(value, stylesheetUrl);
+      assert.equal(url.origin, stylesheetUrl.origin);
+      assert.ok(url.pathname.startsWith(`${prefix}/fonts/`));
+      const font = await readFile(join(outputDirectory, ...url.pathname.slice(prefix.length).split("/")));
+      assert.equal(font.readUInt32BE(0), 0x00010000);
+    }
     for (const file of files.filter((name) => name.endsWith(".html"))) {
       const html = await readFile(join(outputDirectory, ...file.split("/")), "utf8");
       const pageUrl = new URL(`${prefix}/${file}`, "https://example.test");

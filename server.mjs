@@ -10,7 +10,7 @@ const siteRoot = dirname(fileURLToPath(import.meta.url));
 export function createSiteServer(repositoryPath = join(siteRoot, "repository")) {
   return createServer(async (request, response) => {
     response.setHeader("X-Content-Type-Options", "nosniff");
-    response.setHeader("Content-Security-Policy", "default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'");
+    response.setHeader("Content-Security-Policy", "default-src 'none'; style-src 'self'; font-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'");
     response.setHeader("Cache-Control", "no-store");
     const send = (status, type, content) => {
       response.writeHead(status, { "Content-Type": type });
@@ -28,6 +28,10 @@ export function createSiteServer(repositoryPath = join(siteRoot, "repository")) 
         send(200, "text/html; charset=utf-8", await readFile(join(siteRoot, "index.html")));
       } else if (pathname === "/site.css") {
         send(200, "text/css; charset=utf-8", await readFile(join(siteRoot, "site.css")));
+      } else if (pathname === "/assets/hero-cat.jpg") {
+        send(200, "image/jpeg", await readFile(join(siteRoot, "assets", "hero-cat.jpg")));
+      } else if (/^\/fonts\/(?:dm-sans|playfair-display|playfair-display-italic)\.ttf$/.test(pathname)) {
+        send(200, "font/ttf", await readFile(join(siteRoot, "fonts", pathname.slice("/fonts/".length))));
       } else if (pathname === "/cats" || pathname === "/cats/") {
         send(200, "text/html; charset=utf-8", renderCats(await activeCats(repositoryPath)));
       } else {

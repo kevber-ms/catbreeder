@@ -35,6 +35,13 @@ export async function buildSite({
   await writeFile(join(output, ".nojekyll"), "");
   await copyFile(join(siteRoot, "index.html"), join(output, "index.html"));
   await copyFile(join(siteRoot, "site.css"), join(output, "site.css"));
+  await mkdir(join(output, "assets"));
+  await copyFile(join(siteRoot, "assets", "hero-cat.jpg"), join(output, "assets", "hero-cat.jpg"));
+  await mkdir(join(output, "fonts"));
+  for (const file of ["dm-sans.ttf", "playfair-display.ttf", "playfair-display-italic.ttf",
+    "dm-sans-OFL.txt", "playfair-display-OFL.txt"]) {
+    await copyFile(join(siteRoot, "fonts", file), join(output, "fonts", file));
+  }
   await writeFile(join(output, "cats", "index.html"), renderCats(cats, basePath));
   for (const cat of cats) {
     const folder = join(output, "cats", cat.id);

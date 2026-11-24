@@ -106,7 +106,10 @@ The `images` entries are rendered as a photo gallery, not a filename list;
 information in a record intended for publication. The internal ID is used in
 detail-page and image URLs to identify the cat.
 Keep real private records out of public source control; the included records
-and illustrations are dummy examples.
+and their photographs are dummy examples. The active Luna, Milo, and Poppy
+profiles use locally hosted illustrative Unsplash photographs; these do not
+represent real availability. Original SVG illustrations are retained as
+unlisted files. Uploaded photos for other records are unchanged.
 
 With the local Node.js server, listings, details, and image requests read the repository on each request;
 there is no hardcoded cat catalog or startup cache. Add or remove a cat folder

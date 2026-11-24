@@ -3,6 +3,6 @@
   "name": "Poppy",
   "description": "A playful cream-colored kitten who brings a little adventure to every afternoon.",
   "isActive": true,
-  "images": ["portrait.svg"],
-  "activeImage": "portrait.svg"
+  "images": ["portrait.jpg"],
+  "activeImage": "portrait.jpg"
 }
