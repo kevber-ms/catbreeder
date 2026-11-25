@@ -1,0 +1,9 @@
+{
+  "id": "261124-sunny",
+  "name": "Sunny",
+  "description": "A fluffy ginger kitten with bright blue eyes. Gorgeous, incredibly affectionate and sweet, from the same November litter as Myau.",
+  "isActive": true,
+  "isSold": false,
+  "images": ["photo-1.jpg", "photo-2.jpg", "photo-3.jpg", "photo-4.jpg"],
+  "activeImage": "photo-1.jpg"
+}
