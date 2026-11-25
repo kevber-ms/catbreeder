@@ -3,6 +3,7 @@
   "name": "Luna",
   "description": "A gentle gray girl with bright eyes and a fondness for quiet company and cozy blankets.",
   "isActive": true,
+  "isSold": false,
   "images": ["portrait.jpg"],
   "activeImage": "portrait.jpg"
 }
