@@ -1,0 +1,9 @@
+{
+  "id": "261124-misty",
+  "name": "Misty",
+  "description": "A British female kitten, born July 27, 2026. Light gray with striking blue eyes.",
+  "isActive": true,
+  "isSold": true,
+  "images": ["photo-1.jpg", "photo-2.jpg", "photo-3.jpg"],
+  "activeImage": "photo-1.jpg"
+}
