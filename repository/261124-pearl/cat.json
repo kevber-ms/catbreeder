@@ -1,0 +1,9 @@
+{
+  "id": "261124-pearl",
+  "name": "Pearl",
+  "description": "A British Lilac kitten with large blue eyes and a soft cream coat, photographed on a blue blanket. Available in Bellevue, WA.",
+  "isActive": true,
+  "isSold": false,
+  "images": ["photo-1.jpg"],
+  "activeImage": "photo-1.jpg"
+}
