@@ -48,7 +48,7 @@ Example `cat.json`:
 - `isActive` is a required boolean (`true` or `false`, not a quoted string).
   It controls whether the cat is published. Only active cats appear in the list;
   inactive cats' details and images are also unavailable on the site.
-  - `isSold` is an optional boolean (`true` or `false`, not a quoted string)
+- `isSold` is an optional boolean (`true` or `false`, not a quoted string). When `true`, the cat stays published (`isActive` remains `true`) but is shown as Sold in the listing and on its detail page. When absent or `false`, the cat is shown as looking for a home. To hide a sold cat entirely, set `isActive` to `false` instead.
 - `images` is a required, nonempty array of local filenames. Every listed file
   must exist in the cat's folder. Do not use URLs, absolute paths, subdirectories,
   or `..` path segments.
