@@ -39,6 +39,7 @@ export async function activeCats(repositoryPath) {
       typeof metadata.name !== "string" || !metadata.name.trim() ||
       typeof metadata.description !== "string" || !metadata.description.trim() ||
       typeof metadata.isActive !== "boolean" ||
+      (metadata.isSold !== undefined && typeof metadata.isSold !== "boolean") ||
       !Array.isArray(metadata.images) || metadata.images.length === 0 ||
       !metadata.images.every((image) =>
         typeof image === "string" && imageNamePattern.test(image) &&
