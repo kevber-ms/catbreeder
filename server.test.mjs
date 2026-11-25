@@ -267,7 +267,7 @@ test("invalid metadata fails explicitly instead of exposing files or dropping ca
   const errors = t.mock.method(console, "error", () => {});
   for (const changes of [
     { isActive: "false" },
-    { isSold: "yes",}
+    { isSold: "yes" },
     { isActive: true, activeImage: "../cat.json", images: ["../cat.json"] },
     { activeImage: "missing.svg", images: ["portrait.jpg"] },
   ]) {
