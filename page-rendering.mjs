@@ -9,7 +9,7 @@ export function renderCats(cats, basePath = "") {
             <div class="cat-image">
               <img src="${basePath}/cats/${cat.id}/images/${encodeURIComponent(cat.activeImage)}"
                 alt="${escapeHtml(cat.name)}" width="480" height="360" loading="lazy">
-              <span class="availability">Looking for a home</span>
+              <span class="availability${cat.isSold ? " sold" : ""}">${cat.isSold ? "Sold" : "Looking for a home"}</span>
             </div>
             <div class="cat-info">
               <div class="cat-title"><h2>${escapeHtml(cat.name)}</h2></div>
@@ -50,7 +50,7 @@ export function renderCat(cat, basePath = "") {
           <figcaption>Photo ${index + 2}</figcaption>
         </figure>`).join("");
   const metadata = Object.entries(cat)
-    .filter(([key]) => !["name", "description", "images", "activeImage"].includes(key))
+    .filter(([key]) => !["name", "description", "images", "activeImage", "isSold"].includes(key))
     .map(([key, value]) => `
         <div>
           <dt>${escapeHtml(key)}</dt>
@@ -72,7 +72,7 @@ export function renderCat(cat, basePath = "") {
           <p class="eyebrow">A little love. A lifelong friend.</p>
           <h1>${escapeHtml(cat.name)}</h1>
           <dl class="detail-facts">
-            <div><dt>Availability</dt><dd>Looking for a home</dd></div>
+            <div><dt>Availability</dt><dd>${cat.isSold ? "Sold" : "Looking for a home"}</dd></div>
             <div><dt>Photos</dt><dd>${cat.images.length}</dd></div>
           </dl>
           <h2>A little about me</h2>
