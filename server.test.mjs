@@ -84,6 +84,21 @@ test("repository edits change the selected image and availability without restar
   assert.equal((await get("/cats/261119-milo")).status, 404);
 });
 
+test("sold cats are marked sold in listings and details", async (t) => {
+  const { get, update } = await fixture(t);
+  await update("261119-milo", { isSold: true });
+  const listing = await get("/cats");
+  assert.equal(listing.status, 200);
+  const listingHtml = await listing.text();
+  assert.ok(listingHtml.includes('<span class="availability sold">Sold</span>'));
+  assert.ok(listingHtml.includes('<span class="availability">Looking for a home</span>'));
+  const detail = await get("/cats/261119-milo");
+  assert.equal(detail.status, 200);
+  const detailHtml = await detail.text();
+  assert.ok(detailHtml.includes("<dt>Availability</dt><dd>Sold</dd>"));
+  assert.ok(!detailHtml.includes("<dt>isSold</dt>"));
+});
+
 test("cats added and removed at runtime update listings, details, and images without restarting", async (t) => {
   const { get, repository } = await fixture(t);
   await rm(repository, { recursive: true });
@@ -252,6 +267,7 @@ test("invalid metadata fails explicitly instead of exposing files or dropping ca
   const errors = t.mock.method(console, "error", () => {});
   for (const changes of [
     { isActive: "false" },
+    { isSold: "yes",}
     { isActive: true, activeImage: "../cat.json", images: ["../cat.json"] },
     { activeImage: "missing.svg", images: ["portrait.jpg"] },
   ]) {
@@ -260,7 +276,7 @@ test("invalid metadata fails explicitly instead of exposing files or dropping ca
     assert.equal(response.status, 500);
     assert.equal(await response.text(), "We couldn't load this page. Please try again later.");
   }
-  assert.equal(errors.mock.callCount(), 3);
+  assert.equal(errors.mock.callCount(), 4);
 });
 
 test("unreadable repository data and missing images return logged errors", async (t) => {
